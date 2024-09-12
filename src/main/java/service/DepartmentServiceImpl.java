@@ -1,45 +1,59 @@
 package service;
 
-import exception.EmployeeNotFoundException;
 import model.Employee;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
-public class DepartmentServiceImpl implements DepartmentService {
-    EmployeeService employeeService;
+public class DepartmentServiceImpl implements DepartmentService{
+
+    // Это просто пример, вам необходимо заменить на реальный источник данных, например, репозиторий
+    private final EmployeeService employeeService;
 
     public DepartmentServiceImpl(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @Override
-    public Employee getEmployeeWithMaxSalary(int departmentId) {
+    public List<Employee> getEmployeesByDepartment(int departmentId) {
         return employeeService.getAll().stream()
-                .filter(e -> e.getDepartment() == departmentId)
-                .max(Comparator.comparingInt(Employee::getSalary))
-                .orElseThrow(EmployeeNotFoundException::new);
+                .filter(employee -> employee.getDepartment() == departmentId)
+                .toList();
     }
 
     @Override
-    public Employee getEmployeeWithMinSalary(int departmentId) {
-        return employeeService.getAll().stream()
-                .filter(e -> e.getDepartment() == departmentId)
-                .min(Comparator.comparingInt(Employee::getSalary))
-                .orElseThrow(EmployeeNotFoundException::new);
+    public double getSalarySumByDepartment(int departmentId) {
+        return getEmployeesByDepartment(departmentId)
+                .stream()
+                .mapToDouble(Employee::getSalary)
+                .sum();
     }
 
     @Override
-    public Collection<Employee> getAll(Integer departmentId) {
-        if (departmentId == null) {
-            return employeeService.getAll().stream()
-                    .sorted(Comparator.comparingInt(Employee::getDepartment)).toList();
-        } else {
-            return employeeService.getAll().stream()
-                    .filter(e -> e.getDepartment() == departmentId).toList();
-        }
+    public double getMaxSalaryByDepartment(int departmentId) {
+        return getEmployeesByDepartment(departmentId)
+                .stream()
+                .mapToDouble(Employee::getSalary)
+                .max()
+                .orElse(0);
+    }
+
+    @Override
+    public double getMinSalaryByDepartment(int departmentId) {
+        return getEmployeesByDepartment(departmentId)
+                .stream()
+                .mapToDouble(Employee::getSalary)
+                .min()
+                .orElse(0);
+    }
+
+    @Override
+    public Map<Integer, List<Employee>> getEmployeesGroupedByDepartment() {
+        return employeeService.getAll()
+                .stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 }
-

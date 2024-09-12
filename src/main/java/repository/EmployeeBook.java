@@ -27,7 +27,7 @@ public class EmployeeBook {
         Employee driver = new Employee("Ясосу", "Бибу", "Сергеевич", 4, 88550);
         Employee loader = new Employee("Мамут", "Рахал", "Алексеевич", 4, 65240);
         Employee receptionist = new Employee("Ягон", "Дон", "Викторовна", 5, 58550);
-        Employee cleaner = new Employee("Привет", "Пострыжися", "Ивановна", 5, 45240);
+
 
         book.put(generalDirector.getFullName(), generalDirector);
         book.put(deputyDirector.getFullName(), deputyDirector);
@@ -38,7 +38,6 @@ public class EmployeeBook {
         book.put(driver.getFullName(), driver);
         book.put(loader.getFullName(), loader);
         book.put(receptionist.getFullName(), receptionist);
-        book.put(cleaner.getFullName(), cleaner);
     }
 
     public Collection<Employee> getEmployeeBook() {

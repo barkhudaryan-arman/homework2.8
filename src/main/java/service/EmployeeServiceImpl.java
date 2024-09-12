@@ -9,7 +9,7 @@ import java.util.Comparator;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    EmployeeBook employeeBook;
+    private final EmployeeBook employeeBook;
 
     public EmployeeServiceImpl(EmployeeBook employeeBook) {
         this.employeeBook = employeeBook;
