@@ -1,4 +1,4 @@
-package com.sky.homework28;
+package service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
